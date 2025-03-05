@@ -1,4 +1,6 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
+import Navbar from '../../components/navbar'
 
 export default function Pricing() {
   return (
@@ -7,34 +9,18 @@ export default function Pricing() {
             <img src="/assets/images/backgrounds/background-glow.png" className="absolute bottom-0 transform -translate-x-1/2 left-1/2" alt=""/>
         </div>
         <nav className="flex items-center justify-between p-[30px]">
-            <div className="flex items-center gap-[60px]">
-                <img src="/assets/images/logos/logo.svg" className="flex shrink-0" alt="logo"/>
-                <ul className="flex items-center gap-10">
-                    <li className="font-semibold transition-all duration-300 hover:text-[#662FFF] text-white">
-                        <a href="#">Home</a>
-                    </li>
-                    <li className="font-semibold transition-all duration-300 hover:text-[#662FFF] text-[#662FFF]">
-                        <a href="#">Pricing</a>
-                    </li>
-                    <li className="font-semibold transition-all duration-300 hover:text-[#662FFF] text-white">
-                        <a href="#">Features</a>
-                    </li>
-                    <li className="font-semibold transition-all duration-300 hover:text-[#662FFF] text-white">
-                        <a href="#">Testimonials</a>
-                    </li>
-                </ul>
-            </div>
+            <Navbar/>
             <div className="flex items-center gap-3">
-                <a href="index.html" >
+                <Link to="index.html" >
                     <div className="flex items-center gap-3 w-fit rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                         <span className="font-semibold text-white">My Dashboard</span>
                     </div>
-                </a>           
-                <a href="signup.html" >
+                </Link>           
+                <Link to="signup.html" >
                     <div className="flex items-center gap-3 w-fit rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#662FFF] border-[#8661EE] shadow-[-10px_-6px_10px_0_#7F33FF_inset]">
                         <span className="font-semibold text-white">Sign Up</span>
                     </div>
-                </a>
+                </Link>
             </div>
         </nav>
         <header className="flex flex-col items-center gap-5 text-center mt-[50px]">
@@ -62,11 +48,11 @@ export default function Pricing() {
                 <hr className="border-[#262A56]"/>
                 <p className="text-[#FF435A]">This plan is not available at this moment in your country, try again later.</p>
                 <div className="flex flex-col gap-3">
-                    <a href="#" >
+                    <Link to="#" >
                         <div className="flex items-center justify-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                             <span className="font-semibold text-white">Contact Our Sales</span>
                         </div>
-                    </a>  
+                    </Link>  
                 </div>
             </div>
             <div className="card flex flex-col h-fit rounded-[20px] border border-[#262A56] p-[30px] gap-[30px] bg-[#080A2A]">
@@ -100,16 +86,16 @@ export default function Pricing() {
                 </div>
                 <hr className="border-[#262A56]"/>
                 <div className="flex flex-col gap-3">
-                    <a href="midtrans.html" >
+                    <Link to="midtrans.html" >
                         <div className="flex items-center justify-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#662FFF] border-[#8661EE] shadow-[-10px_-6px_10px_0_#7F33FF_inset]">
                             <span className="font-semibold text-white">Choose This Plan</span>
                         </div>
-                    </a>
-                    <a href="#" >
+                    </Link>
+                    <Link to="#" >
                         <div className="flex items-center justify-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                             <span className="font-semibold text-white">Contact Our Sales</span>
                         </div>
-                    </a>  
+                    </Link>  
                 </div>
             </div>
         </div>
