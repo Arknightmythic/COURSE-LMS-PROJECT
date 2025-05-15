@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./output.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="flex min-h-screen">
+        <aside class="sidebar-container fixed h-[calc(100vh-20px)] w-full max-w-[280px] my-[10px] ml-[10px] bg-[#060A23] overflow-hidden flex flex-1 rounded-[20px]">
+            <div class="scroll-container flex w-full overflow-y-scroll hide-scrollbar">
+                <nav class="flex flex-col w-full h-fit p-[30px] gap-10 z-10">
+                    <a href="index.html">
+                        <img src="assets/images/logos/logo.svg" alt="logo">
+                    </a>
+                    <ul class="flex flex-col gap-4">
+                        <p class="font-semibold text-xs leading-[18px] text-white">GENERAL</p>
+                        <li>
+                            <a href="index.html" >
+                                <div class="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#662FFF] border-[#8661EE] shadow-[-10px_-6px_10px_0_#7F33FF_inset]">
+                                    <img src="assets/images/icons/3dcube-white.svg" class="w-6 h-6" alt="icon">
+                                    <span class="font-semibold text-white">Overview</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="manage-course.html">
+                                <div class="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
+                                    <img src="assets/images/icons/note-favorite-white.svg" class="w-6 h-6" alt="icon">
+                                    <span class="font-semibold text-white">Courses</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
+                                    <img src="assets/images/icons/crown-white.svg" class="w-6 h-6" alt="icon">
+                                    <span class="font-semibold text-white">Categories</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="manage-student.html" >
+                                <div class="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
+                                    <img src="assets/images/icons/profile-2user-white.svg" class="w-6 h-6" alt="icon">
+                                    <span class="font-semibold text-white">Students</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="flex flex-col gap-4">
+                        <p class="font-semibold text-xs leading-[18px] text-white">OTHERS</p>
+                        <li>
+                            <a href="#" >
+                                <div class="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
+                                    <img src="assets/images/icons/security-card-white.svg" class="w-6 h-6" alt="icon">
+                                    <span class="font-semibold text-white">Subscription</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" >
+                                <div class="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
+                                    <img src="assets/images/icons/cup-white.svg" class="w-6 h-6" alt="icon">
+                                    <span class="font-semibold text-white">Rewards</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" >
+                                <div class="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
+                                    <img src="assets/images/icons/setting-2-white.svg" class="w-6 h-6" alt="icon">
+                                    <span class="font-semibold text-white">Settings</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <img src="assets/images/backgrounds/sidebar-glow.png" class="absolute object-contain object-bottom bottom-0" alt="background">
+        </aside>
+        <main class="flex flex-col flex-1 gap-[30px] p-[30px] ml-[290px]">
+            <div id="TopBar" class="flex items-center justify-between gap-[30px]">
+                <form action="" class="flex items-center w-full max-w-[450px] rounded-full border border-[#CFDBEF] gap-3 px-5 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#662FFF]">
+                    <input type="text" name="search" id="search" class="appearance-none outline-none w-full py-3 font-semibold placeholder:font-normal placeholder:text-[#838C9D]" placeholder="Search course, student, other file...">
+                    <img src="assets/images/icons/search-normal.svg" class="w-6 h-6" alt="icon">
+                </form>
+                <div class="relative flex items-center justify-end gap-[14px]">
+                    <div class="text-right">
+                        <p class="font-semibold">Shayna Angga</p>
+                        <p class="text-sm leading-[21px] text-[#838C9D]">Manager</p>
+                    </div>
+                    <button type="button" id="profileButton" class="flex shrink-0 w-[50px] h-[50px] rounded-full overflow-hidden">
+                        <img src="assets/images/photos/photo-1.png" class="w-full h-full object-cover" alt="profile photos">
+                    </button>
+                    <div id="ProfileDropdown" class="absolute top-full hidden">
+                        <ul class="flex flex-col w-[200px] rounded-[20px] border border-[#CFDBEF] p-5 gap-4 bg-white mt-4">
+                            <li class="font-semibold">
+                                <a href="#">My Account</a>
+                            </li>
+                            <li class="font-semibold">
+                                <a href="#">Subscriptions</a>
+                            </li>
+                            <li class="font-semibold">
+                                <a href="#">Settings</a>
+                            </li>
+                            <li class="font-semibold">
+                                <a href="signin.html">Logout</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <header class="flex items-center justify-between gap-[30px]">
+                <div>
+                    <h1 class="font-extrabold text-[28px] leading-[42px]">Overview</h1>
+                    <p class="text-[#838C9D] mt-[1]">Grow your company quickly</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="#" class="w-fit rounded-full border border-[#060A23] p-[14px_20px] font-semibold text-nowrap">
+                        Customize
+                    </a>
+                    <a href="" class="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap">
+                        Export Data
+                    </a>
+                </div>
+            </header>
+            <section id="Stats" class="flex rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]">
+                <div class="grid grid-cols-2 w-[500px] gap-[30px]">
+                    <div class="flex flex-col rounded-[20px] p-5 gap-5 bg-white shadow-[0_4px_4px_0_#E0E2EF]">
+                        <img src="assets/images/icons/profile-2user-purple.svg" class="w-[46px] h-[46px]" alt="icon">
+                        <div>
+                            <p class="font-extrabold text-2xl leading-[36px]">189,498</p>
+                            <p class="text-[#838C9D]">Total Students</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col rounded-[20px] p-5 gap-5 bg-white shadow-[0_4px_4px_0_#E0E2EF]">
+                        <img src="assets/images/icons/note-favorite-purple.svg" class="w-[46px] h-[46px]" alt="icon">
+                        <div>
+                            <p class="font-extrabold text-2xl leading-[36px]">7,221</p>
+                            <p class="text-[#838C9D]">Total Courses</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col rounded-[20px] p-5 gap-5 bg-white shadow-[0_4px_4px_0_#E0E2EF]">
+                        <img src="assets/images/icons/video-play-purple.svg" class="w-[46px] h-[46px]" alt="icon">
+                        <div>
+                            <p class="font-extrabold text-2xl leading-[36px]">893,891</p>
+                            <p class="text-[#838C9D]">Video Content</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col rounded-[20px] p-5 gap-5 bg-white shadow-[0_4px_4px_0_#E0E2EF]">
+                        <img src="assets/images/icons/note-purple.svg" class="w-[46px] h-[46px]" alt="icon">
+                        <div>
+                            <p class="font-extrabold text-2xl leading-[36px]">12,812</p>
+                            <p class="text-[#838C9D]">Text Content</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-1 rounded-[20px] p-5 gap-5 bg-white shadow-[0_4px_4px_0_#E0E2EF]">
+                    <div class="relative flex items-center justify-center shrink-0 m-auto rounded-full w-[230px] h-[230px]">
+                        <div class="absolute rounded-full w-[230px] h-[230px] z-10"
+                            style="
+                                background: conic-gradient(
+                                    #C2ACFF 0% 25%, 
+                                    #662FFF 25% 100%
+                                )
+                            ;">
+                        </div>
+                        <div class="flex justify-center items-center w-[130px] h-[130px] rounded-full bg-white z-10">
+                            <p class="w-fit h-fit text-center font-bold text-lg leading-[27px]">Our<br>Rapport</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-[10px]">
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 rounded-full bg-[#662FFF]"></div>
+                            <p class="font-semibold text-sm leading-[21px]">Completed 75%</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-5 h-5 rounded-full bg-[#C2ACFF]"></div>
+                            <p class="font-semibold text-sm leading-[21px]">Not Completed 25%</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="grid grid-cols-2 gap-[30px]">
+                <section id="LatestCourse" class="flex flex-col rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]">
+                    <h2 class="font-extrabold text-[22px] leading-[33px]">Latest Courses</h2>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-[100px] h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/thumbnails/th-1.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <a href="manage-course-materi.html" class="font-bold text-xl leading-[30px] line-clamp-1">Responsive Design Triclorem Lorem, ipsum dolor.</a>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">Programming</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-[100px] h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/thumbnails/th-2.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <a href="manage-course-materi.html" class="font-bold text-xl leading-[30px] line-clamp-1">HTMX JavaScript 2020</a>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">Marketing</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-[100px] h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/thumbnails/th-3.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <a href="manage-course-materi.html" class="font-bold text-xl leading-[30px] line-clamp-1">Mastering React</a>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">Data Science</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-[100px] h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/thumbnails/th-2.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <a href="manage-course-materi.html" class="font-bold text-xl leading-[30px] line-clamp-1">Responsive Design Triclorem Lorem, ipsum dolor.</a>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">Marketing</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-[100px] h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/thumbnails/th-3.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <a href="manage-course-materi.html" class="font-bold text-xl leading-[30px] line-clamp-1">Company Profile Multilorem Lorem, ipsum dolor.</a>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">Data Science</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section id="LatestStudents" class="flex flex-col rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]">
+                    <h2 class="font-extrabold text-[22px] leading-[33px]">Latest Students</h2>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-20 h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/photos/photo-2.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <h3 class="font-bold text-xl leading-[30px] line-clamp-1">Yulia Putri</h3>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">183 Course Joined</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-20 h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/photos/photo-3.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <h3 class="font-bold text-xl leading-[30px] line-clamp-1">Angga Risky Setiawan</h3>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">183 Course Joined</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-20 h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/photos/photo-4.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <h3 class="font-bold text-xl leading-[30px] line-clamp-1">Shayna Wo</h3>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">183 Course Joined</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-20 h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/photos/photo-5.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <h3 class="font-bold text-xl leading-[30px] line-clamp-1">Imanual Kod</h3>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">183 Course Joined</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card flex items-center gap-5">
+                        <div class="flex shrink-0 w-20 h-20 rounded-[20px] bg-[#D9D9D9] overflow-hidden">
+                            <img src="assets/images/photos/photo-3.png" class="w-full h-full object-cover" alt="thumbnail">
+                        </div>
+                        <div class="w-full">
+                            <h3 class="font-bold text-xl leading-[30px] line-clamp-1">Battita Gunber</h3>
+                            <div class="flex items-center gap-[6px] mt-[6px]">
+                                <img src="assets/images/icons/crown-purple.svg" alt="icon">
+                                <p class="text-[#838C9D]">183 Course Joined</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/navbar.js"></script>
+</body>
+</html>

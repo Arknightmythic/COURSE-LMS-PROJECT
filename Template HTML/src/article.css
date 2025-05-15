@@ -1,0 +1,75 @@
+#Content-wrapper{
+    font-size: 18px;
+    line-height: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#Content-wrapper ul
+{
+    list-style: unset;
+    margin: unset;
+    padding: 0 0 0 30px;
+}
+
+#Content-wrapper li
+{
+    display: list-item;
+}
+
+#Content-wrapper p strong{
+    font-weight: 600;
+}
+
+#Content-wrapper h1, #Content-wrapper h2, #Content-wrapper h3, #Content-wrapper h4, #Content-wrapper h5, #Content-wrapper h6 {
+    font-weight: 700;
+    font-size: unset;
+} 
+
+#Content-wrapper h1{
+    font-size: 32px;
+    line-height: 48px;
+}
+
+#Content-wrapper h2, #Content-wrapper h3{
+    font-size: 22px;
+    line-height: 33px;
+}
+
+#Content-wrapper ins{
+    color: #662FFF;
+}
+
+#Content-wrapper a{
+    color: #662FFF;
+}
+
+#Content-wrapper a:hover{
+    text-decoration: underline;
+}
+
+#Content-wrapper figure{
+    height: 100%;
+    width: fit-content;
+    max-width: 670px;
+    max-height: 380px;
+    overflow: hidden;
+}
+
+#Content-wrapper figure img{
+    width: 100%;
+    height: 100%;
+    min-height: 150px;
+    object-fit: contain;
+    object-position: left;
+    border-radius: 20px;
+}
+
+#Content-wrapper pre code{
+    width: 670px;
+}
+
+#Content-wrapper pre code{
+    border-radius: 20px;
+}
