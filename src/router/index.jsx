@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom"
+import { createBrowserRouter, redirect } from "react-router-dom"
 import ManagerHomePage from "../pages/manager/home"
 import SignInPage from "../pages/SIgnIn"
 import SignUpPage from "../pages/SignUp"
@@ -10,6 +10,11 @@ import ManageCourseDetailPage from "../pages/manager/course-details"
 import ManageContentCreate from "../pages/manager/course-content-create"
 import ManageCoursePreviewPage from "../pages/manager/course-preview"
 import ManageStudentsPage from "../pages/manager/students"
+import ManageStudentscreate from "../pages/manager/student-create"
+import StudentPage from "../pages/Students"
+import secureLocalStorage from "react-secure-storage"
+import { MANAGER_SESSION, STORAGE_KEY } from "../utils/const"
+import { getCategory, getCourse, getCourseDetail } from "../services/courseService"
 
 
 const router = createBrowserRouter([
@@ -31,7 +36,16 @@ const router = createBrowserRouter([
   },
   {
     path: "/manager",
-    element:<LayoutDashboard/>,
+    id:MANAGER_SESSION,
+    loader: async ()=>{
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+
+      if(!session || session.role !== 'manager'){
+        throw redirect('/manager/sign-in')
+      }
+      return session
+    },
+    element:<LayoutDashboard isAdmin={true}/>,
     children:[
       {
         index: true,
@@ -39,10 +53,27 @@ const router = createBrowserRouter([
       },
       {
         path:'/manager/courses',
+        loader: async()=>{
+          const data = await getCourse()
+          return data
+        },
         element: <ManageCoursePage/>
       },
       {
         path:'/manager/courses/create',
+        loader: async()=>{
+          const categories = await getCategory()
+          return {categories, course:null}
+        },
+        element: <ManageCreateCourse/>
+      },
+      {
+        path:'/manager/edit/:id',
+        loader: async({params})=>{   
+          const categories = await getCategory()
+          const course = await getCourseDetail(params.id)
+          return {categories, course: course?.data}
+        },
         element: <ManageCreateCourse/>
       },
       {
@@ -60,8 +91,26 @@ const router = createBrowserRouter([
       {
         path:'/manager/students',
         element:<ManageStudentsPage/>
+      },
+      {
+        path:'/manager/students/create',
+        element:<ManageStudentscreate/>
       }
     ],
+  },
+  {
+    path:"/student",
+    element: <LayoutDashboard isAdmin={false}/>,
+    children:[
+      {
+        index: true,
+        element: <StudentPage/>
+      },
+      {
+        path:"/student/detail-course/:id",
+        element: <ManageCoursePreviewPage/>
+      }
+    ]
   }
 ])
 

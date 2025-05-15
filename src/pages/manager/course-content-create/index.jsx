@@ -139,7 +139,7 @@ export default function ManageContentCreate() {
           <CKEditor
             editor={ClassicEditor}
             config={{
-              licenseKey: "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDM2MzgzOTksImp0aSI6ImJmYmViZGY1LTk2NGEtNDdhZC1hODk2LWYwMjgzZmZjZTBhZSIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6ImRiOWFjNDc5In0.CsTeKiDP_tzeTD46relUAsHYtrlLzBpA4CwoEtPHmfivOxdAId5miqf0iyurX032jUtzsq96UEEETH5-5Nfzow", // Or 'GPL'.
+              licenseKey: "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDU5NzExOTksImp0aSI6Ijg2NWJiY2VjLTc3MDQtNGE2OC05NjIyLWNkMTRjNzBiYmM4OCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjIwNjRkZmNmIn0.nMzbxmqzFGA1kh43HHFXc9g_KTL0o4B4Bzlzx_HH8zkQZLZUdKC0cFno7ZZ8iP7C9Jg01_AhqkPioHd5Y4v-Uw", // Or 'GPL'.
               toolbar: [
                 "undo",
                 "redo",

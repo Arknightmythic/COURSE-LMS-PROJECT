@@ -1,11 +1,15 @@
-import { RouterProvider } from "react-router-dom"
-import router from "./router"
+import { RouterProvider } from "react-router-dom";
+import router from "./router";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const quaryClient = new QueryClient();
 
 function App() {
-
   return (
-   <RouterProvider router={router}/>
-  )
+    <QueryClientProvider client={quaryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;
