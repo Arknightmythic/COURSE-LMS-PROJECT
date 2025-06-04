@@ -193,8 +193,7 @@ export default function ManageContentCreate() {
             <CKEditor
               editor={ClassicEditor}
               config={{
-                licenseKey:
-                  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkwODE1OTksImp0aSI6ImRlMjQ5ZDIwLTc4YjMtNDg3Ni04MmQyLWJjODNhMGFlMWM1ZCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6ImE2NzQ2YzA1In0.jXAF7zRMCTAO6hlKDJv-Jw1VF59wyB9oEpb5nOCq10N7YsEHhp36PjC9H6YUyS8BwKr51-9y__sWVjB8KEkeeQ", // Or 'GPL'.
+                licenseKey: import.meta.env.LICENSE_KEY_CKEDITOR,
                 toolbar: [
                   "undo",
                   "redo",
