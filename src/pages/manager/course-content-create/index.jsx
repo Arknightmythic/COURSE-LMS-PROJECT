@@ -17,7 +17,59 @@ import {
 } from "ckeditor5";
 
 import "ckeditor5/ckeditor5.css";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { mutateContentSchema } from "../../../utils/ZodSchema";
+import { useMutation } from "@tanstack/react-query";
+import { createContent, updateContent } from "../../../services/courseService";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+
 export default function ManageContentCreate() {
+
+  const content = useLoaderData()
+  const {id, contentId} = useParams()
+  const navigate = useNavigate()
+  
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm({
+    resolver: zodResolver(mutateContentSchema),
+    defaultValues:{
+      title: content?.title,
+      type: content?.type,
+      youtubeId: content?.youtubeId,
+      text: content?.text,
+    }
+  });
+
+  const mutateCreate = useMutation({
+    mutationFn: (data) => createContent(data)
+  })
+
+  const mutateUpdate = useMutation({
+    mutationFn:(data) => updateContent(data,contentId)
+  })
+
+  const type = watch("type");
+  
+  const onSubmit = async(values) => {
+    try {
+      if(content === undefined){
+        await mutateCreate.mutateAsync({...values, courseId: id})
+      }else{
+        await mutateUpdate.mutateAsync({...values, courseId: id})
+      }
+      
+      navigate(`/manager/courses/${id}`)
+    } catch (error) {
+      console.log(error)
+    }
+  };
   return (
     <>
       <div
@@ -31,7 +83,7 @@ export default function ManageContentCreate() {
           Course
         </span>
         <span className="last-of-type:after:content-[''] last-of-type:font-semibold">
-          Add Content
+          {content === undefined ? "Add" : "Edit"} Content
         </span>
       </div>
       <header className="flex items-center justify-between gap-[30px]">
@@ -45,7 +97,7 @@ export default function ManageContentCreate() {
           </div>
           <div>
             <h1 className="font-extrabold text-[28px] leading-[42px]">
-              Add Content
+              {content === undefined ? "Add" : "Edit"} Content
             </h1>
             <p className="text-[#838C9D] mt-[1]">
               Give a best content for the course
@@ -54,7 +106,7 @@ export default function ManageContentCreate() {
         </div>
       </header>
       <form
-        action="manage-course-materi.html"
+        onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-[930px] rounded-[30px] p-[30px] gap-[30px] bg-[#F8FAFB]"
       >
         <div className="flex flex-col gap-[10px]">
@@ -68,14 +120,16 @@ export default function ManageContentCreate() {
               alt="icon"
             />
             <input
+              {...register("title")}
               type="text"
-              name="title"
               id="title"
               className="appearance-none outline-none w-full py-3 font-semibold placeholder:font-normal placeholder:text-[#838C9D] !bg-transparent"
               placeholder="Write better name for your course"
-              required
             />
           </div>
+          <span className="error-message text-[#FF435A]">
+            {errors?.title?.message}
+          </span>
         </div>
         <div className="flex flex-col gap-[10px]">
           <label for="type" className="font-semibold">
@@ -88,16 +142,15 @@ export default function ManageContentCreate() {
               alt="icon"
             />
             <select
-              name="type"
+              {...register("type")}
               id="type"
               className="appearance-none outline-none w-full py-3 px-2 -mx-2 font-semibold placeholder:font-normal placeholder:text-[#838C9D] !bg-transparent"
             >
               <option value="" hidden>
                 Choose content type
               </option>
-              <option value="">test</option>
-              <option value="">test</option>
-              <option value="">test</option>
+              <option value="video">video</option>
+              <option value="text">text</option>
             </select>
             <img
               src="/assets/images/icons/arrow-down.svg"
@@ -105,89 +158,101 @@ export default function ManageContentCreate() {
               alt="icon"
             />
           </div>
+          <span className="error-message text-[#FF435A]">
+            {errors?.type?.message}
+          </span>
         </div>
-        <div className="flex flex-col gap-[10px]">
-          <label for="video" className="font-semibold">
-            Youtube Video ID
-          </label>
-          <div className="flex items-center w-full rounded-full border border-[#CFDBEF] gap-3 px-5 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#662FFF]">
-            <img
-              src="/assets/images/icons/bill-black.svg"
-              className="w-6 h-6"
-              alt="icon"
-            />
-            <input
-              type="text"
-              name="video"
-              id="video"
-              className="appearance-none outline-none w-full py-3 font-semibold placeholder:font-normal placeholder:text-[#838C9D] !bg-transparent"
-              placeholder="Write tagline for better copy"
-            />
+        {type === "video" && (
+          <div className="flex flex-col gap-[10px]">
+            <label for="video" className="font-semibold">
+              Youtube Video ID
+            </label>
+            <div className="flex items-center w-full rounded-full border border-[#CFDBEF] gap-3 px-5 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#662FFF]">
+              <img
+                src="/assets/images/icons/bill-black.svg"
+                className="w-6 h-6"
+                alt="icon"
+              />
+              <input
+                type="text"
+                {...register("youtubeId")}
+                id="video"
+                className="appearance-none outline-none w-full py-3 font-semibold placeholder:font-normal placeholder:text-[#838C9D] !bg-transparent"
+                placeholder="Write tagline for better copy"
+              />
+            </div>
+            <span className="error-message text-[#FF435A]">
+              {errors?.youtubeId?.message}
+            </span>
           </div>
-        </div>
-        {/* <div className="flex flex-col gap-[10px]">
-                    <label for="desc" className="font-semibold">Description</label>
-                    <div className="flex w-full rounded-[20px] border border-[#CFDBEF] gap-3 p-5  transition-all duration-300 focus-within:ring-2 focus-within:ring-[#662FFF] ring-2 ring-[#FF435A]">
-                        <img src="/assets/images/icons/note-black.png" className="w-6 h-6" alt="icon"/>
-                        <textarea name="desc" id="desc" rows="5" className="appearance-none outline-none w-full font-semibold placeholder:font-normal placeholder:text-[#838C9D] !bg-transparent" placeholder="Explain what this course about"></textarea>
-                    </div>
-                    <span className="error-message text-[#FF435A]">The description is required</span>
-                </div> */}
-        <div className="flex flex-col gap-[10px]">
-          <label className="font-semibold">Content Text</label>
-          {/* <div id="editor"></div> */}
-          <CKEditor
-            editor={ClassicEditor}
-            config={{
-              licenseKey: "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDU5NzExOTksImp0aSI6Ijg2NWJiY2VjLTc3MDQtNGE2OC05NjIyLWNkMTRjNzBiYmM4OCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjIwNjRkZmNmIn0.nMzbxmqzFGA1kh43HHFXc9g_KTL0o4B4Bzlzx_HH8zkQZLZUdKC0cFno7ZZ8iP7C9Jg01_AhqkPioHd5Y4v-Uw", // Or 'GPL'.
-              toolbar: [
-                "undo",
-                "redo",
-                "|",
-                "heading",
-                "|",
-                "bold",
-                "italic",
-                "|",
-                "link",
-                "insertTable",
-                "mediaEmbed",
-                "|",
-                "bulletedList",
-                "numberedList",
-                "indent",
-                "outdent",
-              ],
-              plugins: [
-                Bold,
-                Essentials,
-                Heading,
-                Indent,
-                IndentBlock,
-                Italic,
-                Link,
-                List,
-                MediaEmbed,
-                Paragraph,
-                Table,
-                Undo,
-              ],
-              initialData: "<h1>Hello from CKEditor 5!</h1>",
-            }}
-          />
-        </div>
+        )}
+        {type === "text" && (
+          <div className="flex flex-col gap-[10px]">
+            <label className="font-semibold">Content Text</label>
+            {/* <div id="editor"></div> */}
+            <CKEditor
+              editor={ClassicEditor}
+              config={{
+                licenseKey:
+                  "eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDkwODE1OTksImp0aSI6ImRlMjQ5ZDIwLTc4YjMtNDg3Ni04MmQyLWJjODNhMGFlMWM1ZCIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6ImE2NzQ2YzA1In0.jXAF7zRMCTAO6hlKDJv-Jw1VF59wyB9oEpb5nOCq10N7YsEHhp36PjC9H6YUyS8BwKr51-9y__sWVjB8KEkeeQ", // Or 'GPL'.
+                toolbar: [
+                  "undo",
+                  "redo",
+                  "|",
+                  "heading",
+                  "|",
+                  "bold",
+                  "italic",
+                  "|",
+                  "link",
+                  "insertTable",
+                  "mediaEmbed",
+                  "|",
+                  "bulletedList",
+                  "numberedList",
+                  "indent",
+                  "outdent",
+                ],
+                plugins: [
+                  Bold,
+                  Essentials,
+                  Heading,
+                  Indent,
+                  IndentBlock,
+                  Italic,
+                  Link,
+                  List,
+                  MediaEmbed,
+                  Paragraph,
+                  Table,
+                  Undo,
+                ],
+                initialData: content?.text,
+              }}
+              onChange={(_, editor) => {
+                const data = editor.getData();
+                console.log(data)
+                setValue("text", data);
+              }}
+            />
+            <span className="error-message text-[#FF435A]">
+              {errors?.text?.message}
+            </span>
+          </div>
+        )}
         <div className="flex items-center gap-[14px]">
           <button
-            type="submit"
+            type="button"
             className="w-full rounded-full border border-[#060A23] p-[14px_20px] font-semibold text-nowrap"
           >
             Save as Draft
           </button>
           <button
             type="submit"
+            disabled = {content === undefined ? mutateCreate.isLoading : mutateUpdate.isLoading}
             className="w-full rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
           >
-            Add Content Now
+            {content === undefined ? "Add" : "Edit"} Content Now
           </button>
         </div>
       </form>

@@ -1,8 +1,10 @@
 import React from "react";
 import ContentItem from "./content-item";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-export default function TableContent() {
+export default function TableContent({details, courseId}) {
+  console.log(details)
   return (
     <section
       id="CourseList"
@@ -11,13 +13,18 @@ export default function TableContent() {
       <div className="header flex items-center justify-between">
         <h2 className="font-bold text-[22px] leading-[33px]">Course Content</h2>
         <Link
-          to="/manager/courses/:id/create"
+          to={`/manager/courses/${courseId}/create`}
           className="w-fit rounded-full p-[14px_20px] font-semibold text-[#FFFFFF] bg-[#662FFF] text-nowrap"
         >
           Add Content
         </Link>
       </div>
-      <ContentItem type="text"/>
+      {
+        details?.map((content, i)=>(
+          <ContentItem key={content._id} type={content.type} title={content.title} id={content._id} index={i+1} courseId={courseId}/>
+        ))
+      }
+      {/* <ContentItem type="text"/>
       <ContentItem type="video"/>
       <ContentItem type="text"/>
       <ContentItem type="video"/>
@@ -26,7 +33,7 @@ export default function TableContent() {
       <ContentItem type="text"/>
       <ContentItem type="video"/>
       <ContentItem type="text"/>
-      <ContentItem type="video"/>
+      <ContentItem type="video"/> */}
       <div id="Pagination" className="flex items-center gap-3">
         <button
           type="button"
@@ -61,4 +68,10 @@ export default function TableContent() {
       </div>
     </section>
   );
+}
+
+
+TableContent.propTypes = {
+  details: PropTypes.array,
+  courseId: PropTypes.string
 }

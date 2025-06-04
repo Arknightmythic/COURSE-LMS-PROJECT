@@ -14,7 +14,7 @@ import ManageStudentscreate from "../pages/manager/student-create"
 import StudentPage from "../pages/Students"
 import secureLocalStorage from "react-secure-storage"
 import { MANAGER_SESSION, STORAGE_KEY } from "../utils/const"
-import { getCategory, getCourse, getCourseDetail } from "../services/courseService"
+import { getCategory, getCourse, getCourseDetail, getDetailContent } from "../services/courseService"
 
 
 const router = createBrowserRouter([
@@ -39,6 +39,7 @@ const router = createBrowserRouter([
     id:MANAGER_SESSION,
     loader: async ()=>{
       const session = secureLocalStorage.getItem(STORAGE_KEY)
+      console.log(session)
 
       if(!session || session.role !== 'manager'){
         throw redirect('/manager/sign-in')
@@ -68,7 +69,7 @@ const router = createBrowserRouter([
         element: <ManageCreateCourse/>
       },
       {
-        path:'/manager/edit/:id',
+        path:'/manager/courses/edit/:id',
         loader: async({params})=>{   
           const categories = await getCategory()
           const course = await getCourseDetail(params.id)
@@ -78,6 +79,10 @@ const router = createBrowserRouter([
       },
       {
         path:'/manager/courses/:id',
+        loader: async({params})=>{
+          const course = await getCourseDetail(params.id)
+          return course?.data
+        },
         element: <ManageCourseDetailPage/>
       },
       {
@@ -85,7 +90,19 @@ const router = createBrowserRouter([
         element:<ManageContentCreate/>
       },
       {
+        path:'/manager/courses/:id/edit/:contentId',
+        loader: async({params})=>{
+          const content = await getDetailContent(params.contentId)
+          return content?.data
+        },
+        element:<ManageContentCreate/>
+      },
+      {
         path:'/manager/courses/:id/preview',
+        loader: async({params})=>{
+          const course = await getCourseDetail(params.id, true)
+          return course?.data
+        },
         element:<ManageCoursePreviewPage/>
       },
       {
