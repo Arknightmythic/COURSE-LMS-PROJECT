@@ -8,7 +8,6 @@ import { createCourses, updateCourses } from "../../../services/courseService";
 
 export default function ManageCreateCourse() {
   const data = useLoaderData();
-  console.log(data);
   const navigate = useNavigate();
   const {
     register,
@@ -131,12 +130,18 @@ export default function ManageCreateCourse() {
               alt="thumbnail"
             />
             <button
-              type="button"
-              id="delete-preview"
-              className="absolute right-[10px] bottom-[10px] w-12 h-12 rounded-full z-10 hidden"
-            >
-              <img src="/assets/images/icons/delete.svg" alt="delete" />
-            </button>
+            type="button"
+            id="delete-preview"
+            onClick={()=>{
+              setFile(null),
+              setValue('thumbnail', null)
+            }}
+            className={`w-full h-full object-cover ${
+                file !== null ? "block" : "hidden"
+              }`}
+          >
+            <img src="/assets/images/icons/delete.svg" alt="delete" />
+          </button>
           </div>
           <input
             {...register("thumbnail")}
