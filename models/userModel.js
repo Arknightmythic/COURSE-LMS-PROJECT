@@ -22,18 +22,16 @@ const userModel = new mongoose.Schema({
         enum:['manager', 'student'],
         default: 'manager'
     },
-    course:[
+    courses:[
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Course'
         }
     ],
-    manager:[
-        {
+    manager:{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         }
-    ]
 })
 
 

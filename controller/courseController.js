@@ -1,327 +1,336 @@
 import path from "path";
 import categoryModel from "../models/categoryModel.js";
-import courseModel from "../models/courseModel.js"
+import courseModel from "../models/courseModel.js";
 import userModel from "../models/userModel.js";
 import { mutateCourseSchema } from "../utils/schema.js";
-import fs from 'fs'
+import fs from "fs";
 import courseDetailModel from "../models/courseDetailModel.js";
-export const getCourse = async (req,res)=>{
-    try {
-        const courses = await courseModel.find({
-            manager: req.user?._id
-        })
-        .select('name thumbnail')
-        .populate({
-            path:'category',
-            select:'name -_id'
-        })
-        .populate({
-            path:'students',
-            select:'name'
-        })
-        const imageUrl= process.env.APP_URL + '/uploads/courses/'
-        const response = courses.map((item)=>{
-            return{
-                ...item.toObject(),
-                thumbnail_url: imageUrl+item.thumbnail,
-                total_students: item.students.length
-            }
-        })
+export const getCourse = async (req, res) => {
+  try {
+    const courses = await courseModel
+      .find({
+        manager: req.user?._id,
+      })
+      .select("name thumbnail")
+      .populate({
+        path: "category",
+        select: "name -_id",
+      })
+      .populate({
+        path: "students",
+        select: "name",
+      });
+    const imageUrl = process.env.APP_URL + "/uploads/courses/";
+    const response = courses.map((item) => {
+      return {
+        ...item.toObject(),
+        thumbnail_url: imageUrl + item.thumbnail,
+        total_students: item.students.length,
+      };
+    });
 
-        return res.json({
-            message:'Get Courses Successfull',
-            data:response
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message:'Internal server error'
-        })
+    return res.json({
+      message: "Get Courses Successfull",
+      data: response,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getCategory = async (req, res) => {
+  try {
+    const categories = await categoryModel.find();
+
+    return res.json({
+      message: "Get categories success",
+      data: categories,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal Server",
+    });
+  }
+};
+
+export const getCourseById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { preview } = req.query;
+    const course = await courseModel
+      .findById(id)
+      .populate({
+        path: "category",
+        select: "name -_id",
+      })
+      .populate({
+        path: "details",
+        select: preview === "true" ? "title type youtubeId text" : "title type",
+      });
+    const imageUrl = process.env.APP_URL + "/uploads/courses/";
+    return res.json({
+      message: "Get Detail Course",
+      data: {
+        ...course.toObject(),
+        thumbnail_url: imageUrl + course.thumbnail,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal Server",
+    });
+  }
+};
+
+export const postCourse = async (req, res) => {
+  try {
+    const body = req.body;
+
+    const parse = mutateCourseSchema.safeParse(body);
+
+    if (!parse.success) {
+      const errorMessages = parse.error.issues.map((err) => err.message);
+
+      if (req?.file?.path && fs.existsSync(req?.file?.path)) {
+        fs.unlinkSync(req?.file?.path);
+      }
+
+      return res.status(500).json({
+        message: "Error",
+        data: null,
+        errors: errorMessages,
+      });
     }
-}
 
-export const getCategory = async (req,res) => {
-    try {
-        const categories = await categoryModel.find()
-
-        return res.json({
-            message:'Get categories success',
-            data: categories
-        })
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message: 'Internal Server'
-        })
+    const category = await categoryModel.findById(parse.data.categoryId);
+    if (!category) {
+      return res.status(500).json({
+        message: "Category Id not found",
+      });
     }
-}
 
-export const getCourseById = async (req,res) =>{
-    try {
-        const {id} = req.params
-        const {preview} = req.query
-        const course = await courseModel.findById(id)
-        .populate({
-            path:'category',
-            select:'name -_id'
-        })
-        .populate({
-            path: 'details',
-            select: preview === "true" ? 'title type youtubeId text' : 'title type'
-        })
-        const imageUrl= process.env.APP_URL + '/uploads/courses/'
-        return res.json({
-            message: 'Get Detail Course',
-            data: {
-                ...course.toObject(),
-                thumbnail_url: imageUrl+course.thumbnail
-            }
-        })
-    } catch (error) {
-       console.log(error)
-        return res.status(500).json({
-            message: 'Internal Server'
-        })
+    const course = new courseModel({
+      name: parse.data.name,
+      category: category._id,
+      description: parse.data.description,
+      tagline: parse.data.tagline,
+      thumbnail: req.file?.filename,
+      manager: req.user._id,
+    });
+
+    await course.save();
+
+    await categoryModel.findByIdAndUpdate(
+      category._id,
+      {
+        $push: {
+          courses: course._id,
+        },
+      },
+      { new: true }
+    );
+
+    await userModel.findByIdAndUpdate(
+      req.user?._id,
+      {
+        $push: {
+          courses: course._id,
+        },
+      },
+      { new: true }
+    );
+
+    return res.json({
+      message: "Create Course successful",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal Server",
+    });
+  }
+};
+
+export const updateCourse = async (req, res) => {
+  try {
+    const body = req.body;
+    const courseId = req.params.id;
+
+    const parse = mutateCourseSchema.safeParse(body);
+
+    if (!parse.success) {
+      const errorMessages = parse.error.issues.map((err) => err.message);
+
+      if (req?.file?.path && fs.existsSync(req?.file?.path)) {
+        fs.unlinkSync(req?.file?.path);
+      }
+
+      return res.status(500).json({
+        message: "Error",
+        data: null,
+        errors: errorMessages,
+      });
     }
-}
 
+    const category = await categoryModel.findById(parse.data.categoryId);
+    const oldcourse = await courseModel.findById(courseId);
 
-export const postCourse = async(req,res) => {
-    try {
-        const body = req.body
-
-        const parse = mutateCourseSchema.safeParse(body)
-
-        if (!parse.success) {
-            const errorMessages = parse.error.issues.map((err)=>err.message)
-
-            if (req?.file?.path && fs.existsSync(req?.file?.path )) {
-                fs.unlinkSync(req?.file?.path)
-            }
-
-            return res.status(500).json({
-                message: 'Error',
-                data: null,
-                errors: errorMessages
-            })
-        }
-
-        const category = await categoryModel.findById(parse.data.categoryId)
-        if (!category) {
-            return res.status(500).json({
-                message: 'Category Id not found'
-            })
-        }
-
-        const course = new courseModel({
-            name: parse.data.name,
-            category: category._id,
-            description: parse.data.description,
-            tagline: parse.data.tagline,
-            thumbnail: req.file?.filename,
-            manager: req.user._id,
-        })
-
-        await course.save()
-
-        await categoryModel.findByIdAndUpdate(category._id,{
-            $push:{
-                courses:course._id
-            }
-        }, {new:true})
-
-        await userModel.findByIdAndUpdate(req.user?._id,{
-            $push:{
-                courses:course._id
-            }
-        }, {new:true})
-
-        return res.json({
-            message:'Create Course successful'
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message: 'Internal Server'
-        })
+    if (!category) {
+      return res.status(500).json({
+        message: "Category Id not found",
+      });
     }
-}
 
-export const updateCourse = async(req,res) => {
-    try {
-        const body = req.body
-        const courseId = req.params.id
+    await courseModel.findByIdAndUpdate(courseId, {
+      name: parse.data.name,
+      category: category._id,
+      description: parse.data.description,
+      tagline: parse.data.tagline,
+      thumbnail: req?.file ? req.file?.filename : oldcourse.thumbnail,
+      manager: req.user._id,
+    });
+    return res.json({
+      message: "update Course successful",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "Internal Server",
+    });
+  }
+};
 
-        const parse = mutateCourseSchema.safeParse(body)
+export const deleteCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-        if (!parse.success) {
-            const errorMessages = parse.error.issues.map((err)=>err.message)
+    const course = await courseModel.findById(id);
 
-         
+    const dirname = path.resolve();
 
-            if (req?.file?.path && fs.existsSync(req?.file?.path )) {
-                fs.unlinkSync(req?.file?.path)
-               
-            }
+    const filePath = path.join(
+      dirname,
+      "public/uploads/courses",
+      course.thumbnail
+    );
 
-            return res.status(500).json({
-                message: 'Error',
-                data: null,
-                errors: errorMessages
-            })
-        }
-
-        const category = await categoryModel.findById(parse.data.categoryId)
-        const oldcourse = await courseModel.findById(courseId)
-        
-        if (!category) {
-            return res.status(500).json({
-                message: 'Category Id not found'
-            })
-        }
-
-       await courseModel.findByIdAndUpdate(
-            courseId,
-            {
-                name: parse.data.name,
-                category: category._id,
-                description: parse.data.description,
-                tagline: parse.data.tagline,
-                thumbnail: req?.file ? req.file?.filename: oldcourse.thumbnail,
-                manager: req.user._id,
-            }
-       )
-        return res.json({
-            message:'update Course successful'
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message: 'Internal Server'
-        })
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
     }
-}
 
+    await courseModel.findByIdAndDelete(id);
 
-export const deleteCourse = async(req,res)=>{
-    try {
-        const {id} = req.params
+    return res.json({
+      message: "Delete Course Success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "internal server error",
+    });
+  }
+};
 
-        const course = await courseModel.findById(id)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+export const postContentCourse = async (req, res) => {
+  try {
+    const body = req.body;
 
-      const dirname = path.resolve()
+    const course = await courseModel.findById(body.courseId);
 
-        const filePath = path.join(dirname,"public/uploads/courses",course.thumbnail)
-        
-        if (fs.existsSync(filePath)) {
-            fs.unlinkSync(filePath)
-           
-        }
+    const content = new courseDetailModel({
+      title: body.title,
+      type: body.type,
+      course: course._id,
+      text: body.text,
+      youtubeId: body.youtubeId,
+    });
 
-        await courseModel.findByIdAndDelete(id)
+    await content.save();
 
-        return res.json({
-            message:'Delete Course Success'
-        })
+    await courseModel.findByIdAndUpdate(
+      course._id,
+      {
+        $push: {
+          details: content._id,
+        },
+      },
+      { new: true }
+    );
+    return res.json({
+      message: "Create Content Success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "internal server error",
+    });
+  }
+};
+export const updateContentCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
 
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message:'internal server error'
-        })
-    }
-}
+    const course = await courseModel.findById(body.courseId);
 
-export const postContentCourse = async(req, res) =>{
-    try {
-        const body = req.body
+    await courseDetailModel.findByIdAndUpdate(
+      id,
+      {
+        title: body.title,
+        type: body.type,
+        course: course._id,
+        text: body.text,
+        youtubeId: body.youtubeId,
+      },
+      { new: true }
+    );
 
-        const course = await courseModel.findById(body.courseId)
+    return res.json({
+      message: "update Content Success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "internal server error",
+    });
+  }
+};
 
-        const content = new courseDetailModel({
-            title:body.title,
-            type:body.type,
-            course: course._id,
-            text:body.text,
-            youtubeId: body.youtubeId
-        })
+export const deleteContentCourse = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-        await content.save()
+    await courseDetailModel.findByIdAndDelete(id);
+    return res.json({
+      message: "Delete Content Success",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "internal server error",
+    });
+  }
+};
 
-        await courseModel.findByIdAndUpdate(course._id,{
-            $push:{
-                details: content._id
-            }
-        },{new:true})
-        return res.json({
-            message:'Create Content Success'
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message:'internal server error'
-        })
-    }
-}
-export const updateContentCourse = async(req, res) =>{
-    try {
-        const{id} = req.params
-        const body = req.body
+export const getDetailContent = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-        const course = await courseModel.findById(body.courseId)
+    const content = await courseDetailModel.findById(id);
 
-        await courseDetailModel.findByIdAndUpdate(id,{
-            title:body.title,
-            type:body.type,
-            course: course._id,
-            text:body.text,
-            youtubeId: body.youtubeId
-        },{new:true})
-        
-        return res.json({
-            message:'update Content Success'
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message:'internal server error'
-        })
-    }
-}
-
-
-export const deleteContentCourse = async(req,res) =>{
-    try {
-        const {id} = req.params
-
-        await courseDetailModel.findByIdAndDelete(id)
-        return res.json({
-            message:'Delete Content Success'
-        })
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message:'internal server error'
-        })
-    }
-}
-
-export const getDetailContent = async (req, res) =>{
-    try {
-        const {id} = req.params
-
-        const content = await courseDetailModel.findById(id)
-
-        return res.json({
-            message:'Get Detail Content Success',
-            data: content
-        })
-
-    } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            message:'internal server error'
-        })
-    }
-}
+    return res.json({
+      message: "Get Detail Content Success",
+      data: content,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "internal server error",
+    });
+  }
+};
