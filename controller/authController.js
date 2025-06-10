@@ -3,9 +3,10 @@ import userModel from "../models/userModel.js";
 import transactionModel from "../models/transactionModel.js";
 import jwt from 'jsonwebtoken';
 export const signUpAction = async (req, res) => {
+  const frontendURL = process.env.FRONTEND_URL;
   const midtransUrl = process.env.MIDTRANS_URL;
   const midtransAuthString = process.env.MIDTRANS_AUTH_STRING;
-
+  
   try {
     const body = req.body; //got name, email, password
     const hashpassword = bcrypt.hashSync(body.password, 12);
@@ -36,7 +37,7 @@ export const signUpAction = async (req, res) => {
           email: user.email,
         },
         callbacks: {
-          finish: "http://localhost:5173/success-checkout/",
+          finish: `${frontendURL}/success-checkout/`,
         },
       }),
       headers: {
