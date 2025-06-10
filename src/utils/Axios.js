@@ -28,11 +28,11 @@ apiInsteanceAuth.interceptors.request.use((config)=>{
 
 apiInsteanceAuth.interceptors.response.use((response)=>response,(err)=>{
     if (err?.response?.status === 400) {
-        window.location.replace('/manager/sign-in'),
-        secureLocalStorage.removeItem(STORAGE_KEY)
-    }
+    secureLocalStorage.removeItem(STORAGE_KEY);
+    window.location.replace('/manager/sign-in');
+}
 
-    return Promise.reject('err')
+    return Promise.reject(err)
 })
 
 export default apiInstance

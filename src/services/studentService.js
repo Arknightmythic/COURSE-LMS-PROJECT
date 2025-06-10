@@ -1,4 +1,5 @@
-import { apiInsteanceAuth } from "../utils/axios";
+import { apiInsteanceAuth } from "../utils/Axios";
+
 
 export const getStudents = async () => {
   return apiInsteanceAuth.get("/student").then((res) => res.data);
