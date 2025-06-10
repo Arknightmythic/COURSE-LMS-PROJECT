@@ -1,25 +1,7 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Sidebar({ isAdmin }) {
-  const location = useLocation();
-  
-  // Helper function to determine if a menu item is active
-  const isActiveRoute = (path) => {
-    if (path === "/manager" && location.pathname === "/manager") {
-      return true;
-    }
-    if (path !== "/manager" && location.pathname.startsWith(path)) {
-      return true;
-    }
-    return false;
-  };
-
-  // Active and inactive styles
-  const activeStyles = "bg-[#662FFF] border-[#8661EE] shadow-[-10px_-6px_10px_0_#7F33FF_inset]";
-  const inactiveStyles = "bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]";
-  const hoverStyles = "hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset]";
-
   return (
     <aside className="sidebar-container fixed h-[calc(100vh-20px)] w-full max-w-[280px] my-[10px] ml-[10px] bg-[#060A23] overflow-hidden flex flex-1 rounded-[20px]">
       <div className="scroll-container flex w-full overflow-y-scroll hide-scrollbar">
@@ -33,9 +15,7 @@ export default function Sidebar({ isAdmin }) {
             </p>
             <li>
               <Link to="/manager">
-                <div className={`flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 ${hoverStyles} ${
-                  isActiveRoute("/manager") ? activeStyles : inactiveStyles
-                }`}>
+                <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#662FFF] border-[#8661EE] shadow-[-10px_-6px_10px_0_#7F33FF_inset]">
                   <img
                     src="/assets/images/icons/3dcube-white.svg"
                     className="w-6 h-6"
@@ -49,9 +29,7 @@ export default function Sidebar({ isAdmin }) {
               <>
                 <li>
                   <Link to="/manager/courses">
-                    <div className={`flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 ${hoverStyles} ${
-                      isActiveRoute("/manager/courses") ? activeStyles : inactiveStyles
-                    }`}>
+                    <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                       <img
                         src="/assets/images/icons/note-favorite-white.svg"
                         className="w-6 h-6"
@@ -62,10 +40,8 @@ export default function Sidebar({ isAdmin }) {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/manager/categories">
-                    <div className={`flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 ${hoverStyles} ${
-                      isActiveRoute("/manager/categories") ? activeStyles : inactiveStyles
-                    }`}>
+                  <Link to="#">
+                    <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                       <img
                         src="/assets/images/icons/crown-white.svg"
                         className="w-6 h-6"
@@ -79,9 +55,7 @@ export default function Sidebar({ isAdmin }) {
                 </li>
                 <li>
                   <Link to="/manager/students">
-                    <div className={`flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 ${hoverStyles} ${
-                      isActiveRoute("/manager/students") ? activeStyles : inactiveStyles
-                    }`}>
+                    <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                       <img
                         src="/assets/images/icons/profile-2user-white.svg"
                         className="w-6 h-6"
@@ -99,10 +73,8 @@ export default function Sidebar({ isAdmin }) {
               OTHERS
             </p>
             <li>
-              <Link to="/manager/subscription">
-                <div className={`flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 ${hoverStyles} ${
-                  isActiveRoute("/manager/subscription") ? activeStyles : inactiveStyles
-                }`}>
+              <Link to="#">
+                <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                   <img
                     src="/assets/images/icons/security-card-white.svg"
                     className="w-6 h-6"
@@ -113,10 +85,8 @@ export default function Sidebar({ isAdmin }) {
               </Link>
             </li>
             <li>
-              <Link to="/manager/rewards">
-                <div className={`flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 ${hoverStyles} ${
-                  isActiveRoute("/manager/rewards") ? activeStyles : inactiveStyles
-                }`}>
+              <Link to="#">
+                <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                   <img
                     src="/assets/images/icons/cup-white.svg"
                     className="w-6 h-6"
@@ -127,10 +97,8 @@ export default function Sidebar({ isAdmin }) {
               </Link>
             </li>
             <li>
-              <Link to="/manager/settings">
-                <div className={`flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 ${hoverStyles} ${
-                  isActiveRoute("/manager/settings") ? activeStyles : inactiveStyles
-                }`}>
+              <Link to="#">
+                <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#070B24] border-[#24283E] shadow-[-10px_-6px_10px_0_#181A35_inset]">
                   <img
                     src="/assets/images/icons/setting-2-white.svg"
                     className="w-6 h-6"

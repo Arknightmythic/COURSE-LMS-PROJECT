@@ -13,10 +13,12 @@ import ManageStudentsPage from "../pages/manager/students"
 import ManageStudentscreate from "../pages/manager/student-create"
 import StudentPage from "../pages/Students"
 import secureLocalStorage from "react-secure-storage"
-import { MANAGER_SESSION, STORAGE_KEY } from "../utils/const"
-import { getCategory, getCourse, getCourseDetail, getDetailContent } from "../services/courseService"
-import { getDetailStudents, getStudents } from "../services/studentService"
-
+import { MANAGER_SESSION, STORAGE_KEY, STUDENT_SESSION } from "../utils/const"
+import { getCategory, getCourse, getCourseDetail, getDetailContent, getStudentsCourse } from "../services/courseService"
+import { getDetailStudents, getListCourseStudents, getStudents, } from "../services/studentService"
+import StudentCourseList from "../pages/manager/student-course"
+import StudentForm from "../pages/manager/student-course/student-form"
+import { getOverviews } from "../services/overviewServices"
 
 const router = createBrowserRouter([
   {
@@ -25,10 +27,27 @@ const router = createBrowserRouter([
   },
   {
     path:"/manager/sign-in",
+    loader: async ()=>{
+      const session = secureLocalStorage.getItem(STORAGE_KEY)  
+
+      if(session && session.role == 'manager'){
+        throw redirect('/manager')
+      }
+      return true;
+    },
     element:<SignInPage/>
   },
   {
     path:"/manager/sign-up",
+    loader: async ()=>{
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+      
+
+      if(session && session.role == 'manager'){
+        throw redirect('/manager')
+      }
+      return true;
+    },
     element:<SignUpPage/>
   },
   {
@@ -37,20 +56,26 @@ const router = createBrowserRouter([
   },
   {
     path: "/manager",
-    id:MANAGER_SESSION,
+    id: MANAGER_SESSION,
     loader: async ()=>{
       const session = secureLocalStorage.getItem(STORAGE_KEY)
-      console.log(session)
+      
 
       if(!session || session.role !== 'manager'){
         throw redirect('/manager/sign-in')
       }
-      return session
+      return session;
     },
+
     element:<LayoutDashboard isAdmin={true}/>,
     children:[
       {
         index: true,
+        loader: async() =>{
+          const overviews = await getOverviews()
+
+          return overviews?.data
+        },
         element: <ManagerHomePage/>
       },
       {
@@ -126,23 +151,68 @@ const router = createBrowserRouter([
           return students?.data
         },
         element:<ManageStudentscreate/>
+      },
+      {
+        path:'/manager/courses/students/:id',
+        loader: async ({ params }) =>{
+          const course = await getStudentsCourse(params.id)
+          return course?.data
+        },
+        element: <StudentCourseList/>
+      },
+      {
+        path:'/manager/courses/students/:id/add',
+        loader: async () =>{
+          const students = await getStudents()
+          return students?.data
+        },
+        element: <StudentForm/>
       }
     ],
   },
   {
     path:"/student",
+    id:STUDENT_SESSION,
+    loader: async ()=>{
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+      if(!session || session.role !== 'student'){
+        throw redirect('/student/sign-in')
+      }
+      return session;
+    },
     element: <LayoutDashboard isAdmin={false}/>,
     children:[
       {
         index: true,
+        loader: async() =>{
+          const courses = await getListCourseStudents()
+          return courses?.data
+        },
         element: <StudentPage/>
       },
       {
         path:"/student/detail-course/:id",
-        element: <ManageCoursePreviewPage/>
+        loader: async({params})=>{
+          const course = await getCourseDetail(params.id, true)
+          return course?.data
+        },
+        element: <ManageCoursePreviewPage isAdmin={false}/>
       }
     ]
-  }
+  },
+  {
+    path:"/student/sign-in",
+    loader: async ()=>{
+      const session = secureLocalStorage.getItem(STORAGE_KEY)
+      
+
+      if(session && session.role == 'student'){
+        throw redirect('/student')
+      }
+      return true;
+    },
+    element:<SignInPage type="student"/>
+  },
 ])
 
 export default router

@@ -30,3 +30,7 @@ export const updateStudents = async (data,id) => {
 export const deleteStudent = async (id) => {
   return apiInsteanceAuth.delete(`/student/${id}`).then((res) => res.data);
 };
+
+export const getListCourseStudents = async () => {
+  return apiInsteanceAuth.get("/student-courses").then((res) => res.data);
+};

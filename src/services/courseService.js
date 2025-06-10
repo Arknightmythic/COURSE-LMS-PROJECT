@@ -57,3 +57,16 @@ export const deleteDetailContent = async (id) => {
     .delete(`/courses/contents/${id}`)
     .then((res) => res.data);
 };
+
+export const getStudentsCourse = async(id) =>{
+  return apiInsteanceAuth.get(`/courses/students/${id}`).then((res)=>res.data)
+}
+
+export const addStudentsCourse = async(data,id) =>{
+  return apiInsteanceAuth.post(`/courses/students/${id}`,data).then((res)=>res.data)
+}
+
+export const deleteStudentsCourse = async(data,id) =>{
+  return apiInsteanceAuth.put(`/courses/students/${id}`,data).then((res)=>res.data)
+}
+

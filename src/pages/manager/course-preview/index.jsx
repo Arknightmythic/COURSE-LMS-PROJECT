@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import ContentText from "./content-text";
 import ContentVideo from "./content-video";
 import { Link, useLoaderData, useParams } from "react-router-dom";
+import Header from "../../../components/header";
+import PropTypes from "prop-types";
 
-export default function ManageCoursePreviewPage() {
+export default function ManageCoursePreviewPage({isAdmin=true}) {
   const course = useLoaderData();
   const { id } = useParams();
   console.log(course);
@@ -25,7 +27,7 @@ export default function ManageCoursePreviewPage() {
         <div className="scroll-container flex w-full overflow-y-scroll hide-scrollbar">
           <nav className="flex flex-col w-full h-fit p-[30px] gap-[30px] z-10">
             <Link
-              to={`/manager/courses/${id}`}
+              to={isAdmin ? `/manager/courses/${id}`:'/student'}
               className="font-semibold text-white hover:underline"
             >
               <span>Back to Dashboard</span>
@@ -59,20 +61,7 @@ export default function ManageCoursePreviewPage() {
                   </button>
                 </li>
               ))}
-              {/* <li>
-                <Link to="course-learning-text.html">
-                  <div className="flex items-center gap-3 w-full rounded-full border p-[14px_20px] transition-all duration-300 hover:bg-[#662FFF] hover:border-[#8661EE] hover:shadow-[-10px_-6px_10px_0_#7F33FF_inset] bg-[#662FFF] border-[#8661EE] shadow-[-10px_-6px_10px_0_#7F33FF_inset]">
-                    <img
-                      src="/assets/images/icons/note-white.svg"
-                      className="w-6 h-6"
-                      alt="icon"
-                    />
-                    <span className="w-full font-semibold text-white line-clamp-1 transition-all duration-300 hover:line-clamp-none">
-                      Pengenalan UI UX
-                    </span>
-                  </div>
-                </Link>
-              </li> */}
+
             </ul>
           </nav>
         </div>
@@ -83,65 +72,16 @@ export default function ManageCoursePreviewPage() {
         />
       </aside>
       <main className="flex flex-col flex-1 gap-[30px] p-[30px] ml-[340px]">
-        <div
-          id="TopBar"
-          className="flex items-center justify-between gap-[30px]"
-        >
-          <form
-            action=""
-            className="flex items-center w-full max-w-[450px] rounded-full border border-[#CFDBEF] gap-3 px-5 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#662FFF]"
-          >
-            <input
-              type="text"
-              name="search"
-              id="search"
-              className="appearance-none outline-none w-full py-3 font-semibold placeholder:font-normal placeholder:text-[#838C9D]"
-              placeholder="Search course, student, other file..."
-            />
-            <img
-              src="/assets/images/icons/search-normal.svg"
-              className="w-6 h-6"
-              alt="icon"
-            />
-          </form>
-          <div className="relative flex items-center justify-end gap-[14px]">
-            <div className="text-right">
-              <p className="font-semibold">Masayoshi Kyo</p>
-              <p className="text-sm leading-[21px] text-[#838C9D]">Employee</p>
-            </div>
-            <button
-              type="button"
-              id="profileButton"
-              className="flex shrink-0 w-[50px] h-[50px] rounded-full overflow-hidden"
-            >
-              <img
-                src="/assets/images/photos/photo-3.png"
-                className="w-full h-full object-cover"
-                alt="profile photos"
-              />
-            </button>
-            <div id="ProfileDropdown" className="absolute top-full hidden">
-              <ul className="flex flex-col w-[200px] rounded-[20px] border border-[#CFDBEF] p-5 gap-4 bg-white mt-4">
-                <li className="font-semibold">
-                  <Link to="#">My Account</Link>
-                </li>
-                <li className="font-semibold">
-                  <Link to="#">Subscriptions</Link>
-                </li>
-                <li className="font-semibold">
-                  <Link to="#">Settings</Link>
-                </li>
-                <li className="font-semibold">
-                  <Link to="signin.html">Logout</Link>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        <Header type={isAdmin?'manager':'student'}/>
         <div className="relative flex flex-col gap-[26px]">
           {activeContent?.type === 'text'?(<ContentText content={activeContent} handleNext={handleNextContent}/>):(<ContentVideo content={activeContent} handleNext={handleNextContent}/>)}
         </div>
       </main>
     </div>
   );
+}
+
+
+ManageCoursePreviewPage.propTypes={
+  isAdmin:PropTypes.bool
 }

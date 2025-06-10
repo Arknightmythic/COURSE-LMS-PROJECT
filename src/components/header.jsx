@@ -1,14 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteLoaderData } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
-import { STORAGE_KEY } from "../utils/const";
+import { MANAGER_SESSION, STORAGE_KEY, STUDENT_SESSION } from "../utils/const";
+import PropTypes from "prop-types";
 
-export default function Header() {
+export default function Header({type = "manager"}) {
+  const session = useRouteLoaderData(type === "manager" ? MANAGER_SESSION : STUDENT_SESSION);
 
-  const handleLogout = () =>{
-    secureLocalStorage.removeItem(STORAGE_KEY)
-    window.location.replace('/manager/sign-in')
-  }
+  const handleLogout = () => {
+    secureLocalStorage.removeItem(STORAGE_KEY);
+    window.location.replace(type==="manager"? "/manager/sign-in":"/student/sign-in");
+  };
   return (
     <div id="TopBar" className="flex items-center justify-between gap-[30px]">
       <form
@@ -30,8 +32,10 @@ export default function Header() {
       </form>
       <div className="relative flex items-center justify-end gap-[14px] group">
         <div className="text-right">
-          <p className="font-semibold">Shayna Angga</p>
-          <p className="text-sm leading-[21px] text-[#838C9D]">Manager</p>
+          <p className="font-semibold">{session?.name}</p>
+          <p className="text-sm leading-[21px] text-[#838C9D]">
+            {session?.role}
+          </p>
         </div>
         <button
           type="button"
@@ -44,7 +48,10 @@ export default function Header() {
             alt="profile photos"
           />
         </button>
-        <div id="ProfileDropdown" className="absolute top-full hidden group-hover:block">
+        <div
+          id="ProfileDropdown"
+          className="absolute top-full hidden group-hover:block z-30"
+        >
           <ul className="flex flex-col w-[200px] rounded-[20px] border border-[#CFDBEF] p-5 gap-4 bg-white mt-4">
             <li className="font-semibold">
               <Link to="#">My Account</Link>
@@ -56,11 +63,18 @@ export default function Header() {
               <Link to="#">Settings</Link>
             </li>
             <li className="font-semibold">
-              <button onClick={handleLogout} type="button">Logout</button>
+              <button onClick={handleLogout} type="button">
+                Logout
+              </button>
             </li>
           </ul>
         </div>
       </div>
     </div>
   );
+}
+
+
+Header.propTypes={
+  type:PropTypes.string
 }

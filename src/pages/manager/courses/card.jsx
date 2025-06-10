@@ -11,19 +11,19 @@ export default function CardCourse({
   totalstudents = 554,
   category = "Programming",
 }) {
-    const revalidator = useRevalidator()
-    const {isLoading, mutateAsync} = useMutation({
-        mutationFn: () => deleteCourse(id)
-    })
+  const revalidator = useRevalidator();
+  const { isLoading, mutateAsync } = useMutation({
+    mutationFn: () => deleteCourse(id),
+  });
 
-    const handleDelete = async () =>{
-        try {
-            await mutateAsync()
-            revalidator.revalidate()
-        } catch (error) {
-            console.log(error)
-        }
+  const handleDelete = async () => {
+    try {
+      await mutateAsync();
+      revalidator.revalidate();
+    } catch (error) {
+      console.log(error);
     }
+  };
   return (
     <div className="card flex items-center gap-5">
       <div className="flex shrink-0 w-[140px] h-[110px] rounded-[20px] bg-[#D9D9D9] overflow-hidden">
@@ -57,6 +57,12 @@ export default function CardCourse({
         </div>
       </div>
       <div className="flex justify-end items-center gap-3">
+        <Link
+          to={`/manager/courses/students/${id}`}
+          className="w-fit rounded-full border border-[#060A23] p-[14px_20px] font-semibold text-nowrap"
+        >
+          Student
+        </Link>
         <Link
           to={`/manager/courses/${id}`}
           className="w-fit rounded-full border border-[#060A23] p-[14px_20px] font-semibold text-nowrap"
