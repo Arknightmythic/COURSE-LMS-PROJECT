@@ -35,12 +35,12 @@ export const getStudents = async (req, res) => {
 export const getDetailStudents = async (req, res) => {
   try {
     const { id } = req.params;
-    const student = await userModel.findById(id).select('name email photo');
+    const student = await userModel.findById(id).select("name email photo");
     const photoUrl = process.env.APP_URL + "/uploads/students/";
-    
+
     return res.json({
       message: "get detail student succesfull",
-       data: {
+      data: {
         ...student.toObject(),
         photo_url: photoUrl + student.photo,
       },
@@ -169,6 +169,37 @@ export const deleteStudent = async (req, res) => {
     await userModel.findByIdAndDelete(id);
     return res.json({
       message: "Delete student succesfull",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      message: "internal server error",
+    });
+  }
+};
+
+export const getCourseStudent = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.user._id).populate({
+      path: "courses",
+      select: "name category thumbnail",
+      populate:{
+        path:'category',
+        select:'name'
+      }
+    });
+
+    const imageUrl = process.env.APP_URL + "/uploads/courses/";
+    const response = user?.courses.map((item) => {
+      return {
+        ...item.toObject(),
+        thumbnail_url: imageUrl + item.thumbnail,
+      };
+    });
+
+    return res.json({
+      message: "Get List student course succesfull",
+      data: response,
     });
   } catch (error) {
     console.log(error);
